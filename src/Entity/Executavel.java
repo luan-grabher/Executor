@@ -3,7 +3,7 @@ package Entity;
 public class Executavel {
     public String nome = "Executando...";
     public String getNome(){
-        return "Executando...";
+        return nome;
     }
     public void run(){
     }
