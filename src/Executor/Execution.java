@@ -16,6 +16,7 @@ public class Execution {
     private final Carregamento view = new Carregamento();
     private List<Function> runs = new ArrayList<>();
     private List<Executavel> executaveis = new ArrayList<>();
+    private boolean errorBreak = false;
 
     public Execution(String nome, int numberFunctions) {
         this.nome = nome;
@@ -64,11 +65,13 @@ public class Execution {
                 e.printStackTrace();
                 retorno = "Erro em '" + nomeExecAtual + "': " + e.toString();
                 View.render(retorno, "error");
+                errorBreak =  true;
                 break;//sai das execuções
             } catch (Error e) {
                 e.printStackTrace();
                 retorno = "Erro em '" + nomeExecAtual + "': " + e.toString();
                 View.render(retorno, "error");
+                errorBreak = true;
                 break;//sai das execuções
             }
         }
@@ -87,11 +90,13 @@ public class Execution {
                 e.printStackTrace();
                 retorno = "Erro em '" + nomeExecAtual + "': " + e.toString();
                 View.render(retorno, "error");
+                errorBreak = true;
                 break;//sai das execuções
             } catch (Error e) {
                 e.printStackTrace();
                 retorno = "Erro em '" + nomeExecAtual + "': " + e.toString();
                 View.render(retorno, "error");
+                errorBreak = true;
                 break;//sai das execuções
             }
         }
@@ -120,6 +125,7 @@ public class Execution {
         if (!returnOfFunction.equals("")) {
             retorno = returnOfFunction;
             View.render(returnOfFunction, "error");
+            errorBreak = true;
             throw new Error(returnOfFunction);
             //Erro
         }
