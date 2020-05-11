@@ -130,6 +130,10 @@ public class Execution {
             //Erro
         }
     }
+
+    public boolean hasErrorBreak() {
+        return errorBreak;
+    }
     
     public void finalizar() {
         if(retorno.equals("")){
