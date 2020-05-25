@@ -4,8 +4,8 @@ import Entity.Aviso;
 import Entity.ErroIgnorar;
 import Entity.Executavel;
 import Entity.Function;
-import Executor.View.Carregamento;
-import Executor.View.View;
+import SimpleView.Loading;
+import SimpleView.View;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,21 +13,21 @@ public class Execution {
 
     private final String nome;
     private String retorno = "";
-    private final Carregamento view = new Carregamento();
+    private final Loading viewLoading = new Loading();
     private List<Function> runs = new ArrayList<>();
     private List<Executavel> executaveis = new ArrayList<>();
     private boolean errorBreak = false;
 
     public Execution(String nome, int numberFunctions) {
         this.nome = nome;
-        view.setTitle(nome);
+        viewLoading.setTitle(nome);
 
         setCarregamento(numberFunctions);
     }
 
     public Execution(String nome, List<Function> runs) {
         this.nome = nome;
-        view.setTitle(nome);
+        viewLoading.setTitle(nome);
 
         this.runs = runs;
         setCarregamento(this.runs.size());
@@ -35,7 +35,7 @@ public class Execution {
 
     public Execution(String nome) {
         this.nome = nome;
-        view.setTitle(nome);
+        viewLoading.setTitle(nome);
     }
 
     public void setExecutaveis(List<Executavel> executaveis) {
@@ -103,8 +103,8 @@ public class Execution {
     }
 
     private void setCarregamento(int numberFunctions) {
-        Carregamento.barra.setMinimum(0);
-        Carregamento.barra.setMaximum(numberFunctions);
+        Loading.barra.setMinimum(0);
+        Loading.barra.setMaximum(numberFunctions);
     }
 
     public String getRetorno() {
@@ -112,13 +112,13 @@ public class Execution {
     }
 
     public void setMostrarMensagens(boolean mostrarMensagens) {
-        View.setMostrarMensagens(mostrarMensagens);
+        View.setShowMessages(mostrarMensagens);
     }
 
     public void atualizarVisão(String nameNextFunction) {
-        view.setVisible(true);
-        Carregamento.texto.setText(nameNextFunction);
-        Carregamento.barra.setValue(Carregamento.barra.getValue() + 1);
+        viewLoading.setVisible(true);
+        Loading.texto.setText(nameNextFunction);
+        Loading.barra.setValue(Loading.barra.getValue() + 1);
     }
 
     public void executar(String returnOfFunction) {
@@ -146,7 +146,7 @@ public class Execution {
         if(renderReturn){
             View.render(retorno, "success");
         }
-        view.dispose();
+        viewLoading.dispose();
     }
 
 }
