@@ -135,11 +135,17 @@ public class Execution {
         return errorBreak;
     }
     
-    public void finalizar() {
+    public void finalizar(){
+        finalizar(true);
+    }
+    
+    public void finalizar(boolean renderReturn) {
         if(retorno.equals("")){
             retorno = "Execução '" + nome + "' finalizada!";
         }
-        View.render(retorno, "success");
+        if(renderReturn){
+            View.render(retorno, "success");
+        }
         view.dispose();
     }
 
