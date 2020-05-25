@@ -103,8 +103,7 @@ public class Execution {
     }
 
     private void setCarregamento(int numberFunctions) {
-        Loading.barra.setMinimum(0);
-        Loading.barra.setMaximum(numberFunctions);
+        viewLoading.start(nome, 0, numberFunctions);
     }
 
     public String getRetorno() {
@@ -117,8 +116,7 @@ public class Execution {
 
     public void atualizarVisão(String nameNextFunction) {
         viewLoading.setVisible(true);
-        Loading.texto.setText(nameNextFunction);
-        Loading.barra.setValue(Loading.barra.getValue() + 1);
+        viewLoading.update(nameNextFunction, viewLoading.barra.getValue() + 1);
     }
 
     public void executar(String returnOfFunction) {
