@@ -1,9 +1,8 @@
 package Executor;
 
-import Entity.Aviso;
-import Entity.ErroIgnorar;
+import Entity.Warning;
+import Entity.ErrorIgnore;
 import Entity.Executavel;
-import Entity.Function;
 import SimpleView.Loading;
 import SimpleView.View;
 import java.util.ArrayList;
@@ -11,65 +10,51 @@ import java.util.List;
 
 public class Execution {
 
-    private final String nome;
+    private final String name;
     private String retorno = "";
     private final Loading viewLoading = new Loading();
-    private List<Function> runs = new ArrayList<>();
-    private List<Executavel> executaveis = new ArrayList<>();
+    private List<Executavel> executables = new ArrayList<>();
     private boolean errorBreak = false;
 
-    public Execution(String nome, int numberFunctions) {
-        this.nome = nome;
-        viewLoading.setTitle(nome);
-
-        setCarregamento(numberFunctions);
-    }
-
-    public Execution(String nome, List<Function> runs) {
-        this.nome = nome;
-        viewLoading.setTitle(nome);
-
-        this.runs = runs;
-        setCarregamento(this.runs.size());
-    }
-
     public Execution(String nome) {
-        this.nome = nome;
+        this.name = nome;
         viewLoading.setTitle(nome);
     }
 
-    public void setExecutaveis(List<Executavel> executaveis) {
-        this.executaveis = executaveis;
-        setCarregamento(this.executaveis.size());
-
+    public void setExecutables(List<Executavel> executaveis) {
+        this.executables = executaveis;
+        setLoading(this.executables.size());
     }
 
-    public void rodarExecutaveis() {
-        String nomeExecAtual = "NÃO IDENTIFICADA";
-        for (Executavel executavel : executaveis) {
+    public void runExecutables() {
+        String name = "NÃO IDENTIFICADA";
+        for (Executavel executavel : executables) {
             try {
-                nomeExecAtual = executavel.getNome();
-                atualizarVisão(nomeExecAtual);
+                name = executavel.getNome();
+
+                //Update loading
+                viewLoading.setVisible(true);
+                viewLoading.updateBar(name, viewLoading.barra.getValue() + 1);
 
                 executavel.run();
-                retorno += nomeExecAtual + ": ok\n";
-            } catch(Aviso a){
-                retorno += "'" + nomeExecAtual + "': " + a.getMessage() + "\n";
+                retorno += name + ": ok\n";
+            } catch (Warning a) {
+                retorno += "'" + name + "': " + a.getMessage() + "\n";
                 View.render(a.getMessage());
-            } catch(ErroIgnorar e){
+            } catch (ErrorIgnore e) {
                 e.printStackTrace();
-                retorno += "Erro em '" + nomeExecAtual  +"': " + e.toString() + "\n";
-                View.render(e.getMessage(),"error");
+                retorno += "Erro em '" + name + "': " + e.toString() + "\n";
+                View.render(e.getMessage(), "error");
                 //Não dá break, pois é para continuar neste caso
             } catch (Exception e) {
                 e.printStackTrace();
-                retorno = "Erro em '" + nomeExecAtual + "': " + e.toString();
+                retorno = "Erro em '" + name + "': " + e.toString();
                 View.render(retorno, "error");
-                errorBreak =  true;
+                errorBreak = true;
                 break;//sai das execuções
             } catch (Error e) {
                 e.printStackTrace();
-                retorno = "Erro em '" + nomeExecAtual + "': " + e.toString();
+                retorno = "Erro em '" + name + "': " + e.toString();
                 View.render(retorno, "error");
                 errorBreak = true;
                 break;//sai das execuções
@@ -77,71 +62,31 @@ public class Execution {
         }
     }
 
-    public void rodarRunnables() {
-        String nomeExecAtual = "NÃO IDENTIFICADA";
-        for (Function run : runs) {
-            try {
-                nomeExecAtual = run.getNome();
-                atualizarVisão(nomeExecAtual);
-
-                run.getFunc().run();
-                retorno = "";
-            } catch (Exception e) {
-                e.printStackTrace();
-                retorno = "Erro em '" + nomeExecAtual + "': " + e.toString();
-                View.render(retorno, "error");
-                errorBreak = true;
-                break;//sai das execuções
-            } catch (Error e) {
-                e.printStackTrace();
-                retorno = "Erro em '" + nomeExecAtual + "': " + e.toString();
-                View.render(retorno, "error");
-                errorBreak = true;
-                break;//sai das execuções
-            }
-        }
-    }
-
-    private void setCarregamento(int numberFunctions) {
-        viewLoading.start(nome, 0, numberFunctions);
+    private void setLoading(int numberFunctions) {
+        viewLoading.start(name, 0, numberFunctions);
     }
 
     public String getRetorno() {
         return retorno;
     }
 
-    public void setMostrarMensagens(boolean mostrarMensagens) {
-        View.setShowMessages(mostrarMensagens);
-    }
-
-    public void atualizarVisão(String nameNextFunction) {
-        viewLoading.setVisible(true);
-        viewLoading.update(nameNextFunction, viewLoading.barra.getValue() + 1);
-    }
-
-    public void executar(String returnOfFunction) {
-        if (!returnOfFunction.equals("")) {
-            retorno = returnOfFunction;
-            View.render(returnOfFunction, "error");
-            errorBreak = true;
-            throw new Error(returnOfFunction);
-            //Erro
-        }
+    public void setShowMessages(boolean showMessages) {
+        View.setShowMessages(showMessages);
     }
 
     public boolean hasErrorBreak() {
         return errorBreak;
     }
-    
-    public void finalizar(){
-        finalizar(true);
+
+    public void endExecution() {
+        endExecution(true);
     }
-    
-    public void finalizar(boolean renderReturn) {
-        if(retorno.equals("")){
-            retorno = "Execução '" + nome + "' finalizada!";
+
+    public void endExecution(boolean renderReturn) {
+        if (retorno.equals("")) {
+            retorno = "Execução '" + name + "' finalizada!";
         }
-        if(renderReturn){
+        if (renderReturn) {
             View.render(retorno, "success");
         }
         viewLoading.dispose();
