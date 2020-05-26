@@ -27,34 +27,36 @@ public class Execution {
     }
 
     public void runExecutables() {
-        String name = "NÃO IDENTIFICADA";
+        
         for (Executavel executavel : executables) {
+            String nameMethod = "NÃO IDENTIFICADA";
+            
             try {
-                name = executavel.getNome();
+                nameMethod = executavel.getName();
 
                 //Update loading
                 viewLoading.setVisible(true);
-                viewLoading.updateBar(name, viewLoading.barra.getValue() + 1);
+                viewLoading.updateBar(nameMethod, viewLoading.barra.getValue() + 1);
 
                 executavel.run();
-                retorno += name + ": ok\n";
+                retorno += nameMethod + ": ok\n";
             } catch (Warning a) {
-                retorno += "'" + name + "': " + a.getMessage() + "\n";
+                retorno += "'" + nameMethod + "': " + a.getMessage() + "\n";
                 View.render(a.getMessage());
             } catch (ErrorIgnore e) {
                 e.printStackTrace();
-                retorno += "Erro em '" + name + "': " + e.toString() + "\n";
+                retorno += "Erro em '" + nameMethod + "': " + e.toString() + "\n";
                 View.render(e.getMessage(), "error");
                 //Não dá break, pois é para continuar neste caso
             } catch (Exception e) {
                 e.printStackTrace();
-                retorno = "Erro em '" + name + "': " + e.toString();
+                retorno = "Erro em '" + nameMethod + "': " + e.toString();
                 View.render(retorno, "error");
                 errorBreak = true;
                 break;//sai das execuções
             } catch (Error e) {
                 e.printStackTrace();
-                retorno = "Erro em '" + name + "': " + e.toString();
+                retorno = "Erro em '" + nameMethod + "': " + e.toString();
                 View.render(retorno, "error");
                 errorBreak = true;
                 break;//sai das execuções

@@ -1,13 +1,13 @@
 package Entity;
 
 public class Executavel {
-    public String nome = "Executando...";
-    public String getNome(){
-        return nome;
+    public String name = "Executando...";
+    public String getName(){
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String nome) {
+        this.name = nome;
     }
     public void run(){
     }
