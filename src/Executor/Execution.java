@@ -88,7 +88,7 @@ public class Execution {
         if (retorno.equals("")) {
             retorno = "Execução '" + name + "' finalizada!";
         }
-        if (renderReturn) {
+        if (renderReturn && !hasErrorBreak()) {
             View.render(retorno, "success");
         }
         viewLoading.dispose();
