@@ -7,6 +7,7 @@ import SimpleView.Loading;
 import SimpleView.View;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Execution {
 
@@ -21,16 +22,34 @@ public class Execution {
         viewLoading.setTitle(nome);
     }
 
+    /**
+     * Converte um mapa de Executaveis em uma lista de executaveis
+     *
+     * @param map Mapa de executaveis com o nome de cada execução
+     */
+    public void setExecutionMap(Map<String, Executavel> map) {
+        List<Executavel> execs = new ArrayList<>();
+        
+        for (Map.Entry<String, Executavel> entry : map.entrySet()) {
+            String key = entry.getKey();
+            Executavel value = entry.getValue();
+            value.setName(key);
+            execs.add(value);
+        }
+        
+        setExecutables(execs);
+    }
+
     public void setExecutables(List<Executavel> executaveis) {
         this.executables = executaveis;
         setLoading(this.executables.size());
     }
 
     public void runExecutables() {
-        
+
         for (Executavel executavel : executables) {
             String nameMethod = "NÃO IDENTIFICADA";
-            
+
             try {
                 nameMethod = executavel.getName();
 
