@@ -5,6 +5,8 @@ import Entity.ErrorIgnore;
 import Entity.Executavel;
 import SimpleView.Loading;
 import SimpleView.View;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -68,19 +70,45 @@ public class Execution {
                 View.render(e.getMessage(), "error");
                 //Não dá break, pois é para continuar neste caso
             } catch (Exception e) {
-                e.printStackTrace();
-                retorno = "Erro em '" + nameMethod + "': " + e.toString();
-                View.render(retorno, "error");
-                errorBreak = true;
+                printError(e, nameMethod);
                 break;//sai das execuções
             } catch (Error e) {
-                e.printStackTrace();
-                retorno = "Erro em '" + nameMethod + "': " + e.toString();
-                View.render(retorno, "error");
-                errorBreak = true;
+                printError(e, nameMethod);
                 break;//sai das execuções
             }
         }
+    }
+    
+    private void printError(Error e, String method){
+        e.printStackTrace();                                                
+        retorno = "Erro em '" + method + "': " + e.toString();
+        retorno += "\nRETORNO JAVA: " + getStackTrace(e) + "\n\n";
+        View.render(retorno, "error");
+        errorBreak = true;
+    }
+    
+    private void printError(Exception e, String method){
+        e.printStackTrace();                                                
+        retorno = "Erro em '" + method + "': " + e.toString();
+        retorno += "\nRETORNO JAVA: " + getStackTrace(e) + "\n\n";
+        View.render(retorno, "error");
+        errorBreak = true;
+    }
+    
+    private String getStackTrace(Exception e){
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);           
+
+        return sw.toString();
+    }
+    
+    private String getStackTrace(Error e){
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);           
+
+        return sw.toString();
     }
 
     private void setLoading(int numberFunctions) {
