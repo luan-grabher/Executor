@@ -5,6 +5,8 @@ import Entity.ErrorIgnore;
 import Entity.Executavel;
 import SimpleView.Loading;
 import SimpleView.View;
+import fileManager.FileManager;
+import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -31,14 +33,14 @@ public class Execution {
      */
     public void setExecutionMap(Map<String, Executavel> map) {
         List<Executavel> execs = new ArrayList<>();
-        
+
         for (Map.Entry<String, Executavel> entry : map.entrySet()) {
             String key = entry.getKey();
             Executavel value = entry.getValue();
             value.setName(key);
             execs.add(value);
         }
-        
+
         setExecutables(execs);
     }
 
@@ -78,35 +80,41 @@ public class Execution {
             }
         }
     }
-    
-    private void printError(Error e, String method){
-        e.printStackTrace();                                                
+
+    private void printError(Error e, String method) {
+        e.printStackTrace();
         retorno = "Erro em '" + method + "': " + e.toString();
-        retorno += "\nRETORNO JAVA: " + getStackTrace(e) + "\n\n";
         View.render(retorno, "error");
+
+        FileManager.save(new File(System.getProperty("user.home")) + "\\Desktop\\JavaError.txt", getStackTrace(e));
+        View.render("Arquivo de erro java salvo na área de trabalho 'JavaError.txt'. Use se precisar contatar o programador.", "error");
+
         errorBreak = true;
     }
-    
-    private void printError(Exception e, String method){
-        e.printStackTrace();                                                
+
+    private void printError(Exception e, String method) {
+        e.printStackTrace();
         retorno = "Erro em '" + method + "': " + e.toString();
-        retorno += "\nRETORNO JAVA: " + getStackTrace(e) + "\n\n";
         View.render(retorno, "error");
+
+        FileManager.save(new File(System.getProperty("user.home")) + "\\Desktop\\JavaError.txt", getStackTrace(e));
+        View.render("Arquivo de erro java salvo na área de trabalho 'JavaError.txt'. Use se precisar contatar o programador.", "error");
+
         errorBreak = true;
     }
-    
-    private String getStackTrace(Exception e){
+
+    private String getStackTrace(Exception e) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
-        e.printStackTrace(pw);           
+        e.printStackTrace(pw);
 
         return sw.toString();
     }
-    
-    private String getStackTrace(Error e){
+
+    private String getStackTrace(Error e) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
-        e.printStackTrace(pw);           
+        e.printStackTrace(pw);
 
         return sw.toString();
     }
