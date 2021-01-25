@@ -83,7 +83,7 @@ public class Execution {
 
     private void printError(Error e, String method) {
         e.printStackTrace();
-        retorno = "Erro em '" + method + "': " + e.toString();
+        retorno = "Erro em '" + method + "': " + e.getMessage();
         View.render(retorno, "error");
 
         FileManager.save(new File(System.getProperty("user.home")) + "\\Desktop\\JavaError.txt", getStackTrace(e));
@@ -94,7 +94,7 @@ public class Execution {
 
     private void printError(Exception e, String method) {
         e.printStackTrace();
-        retorno = "Erro em '" + method + "': " + e.toString();
+        retorno = "Erro em '" + method + "': " + e.getMessage();
         View.render(retorno, "error");
 
         FileManager.save(new File(System.getProperty("user.home")) + "\\Desktop\\JavaError.txt", getStackTrace(e));
