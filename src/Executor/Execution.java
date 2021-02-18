@@ -119,26 +119,53 @@ public class Execution {
         return sw.toString();
     }
 
+    
     private void setLoading(int numberFunctions) {
         viewLoading.start(name, 0, numberFunctions);
     }
 
+    /**
+     * @return Retorna o que foi retorado pelas funções.
+     */
     public String getRetorno() {
         return retorno;
     }
 
+    /**
+     * Define se irá mostrar JFrame ou System.Out quando for mostrar as
+     * mensagens.
+     * 
+     * @param showMessages True para JFrame ou False para System.out
+     */
     public void setShowMessages(boolean showMessages) {
         View.setShowMessages(showMessages);
     }
 
+    /**
+     * @return Retorna se durante a execução houve algum break e parou a
+     * execução.
+     */
     public boolean hasErrorBreak() {
         return errorBreak;
     }
 
+    /**
+     * Esconde o jframe. Se o retorno estiver vazio será "Execução X
+     * finalizada". Irá mostrar Jframe ou System.out depende do showMessages
+     * <p>
+     */
     public void endExecution() {
         endExecution(true);
     }
 
+    /**
+     * Esconde o jframe. Se o retorno estiver vazio será "Execução X
+     * finalizada". Se o renderReturn for verdadeiro renderiza mensagem, mostrar
+     * Jframe ou System.out depende do showMessages
+     *
+     *
+     * @param renderReturn Se é para mostrar Jframe com retorno ou não.
+     */
     public void endExecution(boolean renderReturn) {
         if (retorno.equals("")) {
             retorno = "Execução '" + name + "' finalizada!";
