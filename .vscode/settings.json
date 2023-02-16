@@ -1,0 +1,7 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "e:\\Documents\\Projetos\\Moresco\\FileManager\\FileManager.jar",
+        "e:\\Documents\\Projetos\\Moresco\\SimpleView\\SimpleView.jar"
+    ]
+}
